@@ -1,9 +1,11 @@
 <html>
 <head>
     <title>Tytuł</title>
-    <script src="jquery-2.2.1.js"></script>
-    <script src="angular.js"></script>
-    <script src="app.js"></script>
+    <script src="lib/jquery-2.2.1.js"></script>
+    <script src="lib/angular.js"></script>
+    <script src="controllers.js"></script>
+    <script src="services.js"></script>
+    <script src="classes.js"></script>
 </head>
 <body ng-app="mainApp">
 <div ng-controller="rootController">
@@ -13,10 +15,11 @@
             <th>What?</th>
             <th ng-repeat="entry in entries">
                 <select ng-model="entry.meat"
-                        ng-options="option.name for option in availableMeats track by option.name"/>
+                        ng-options="option.name for option in availableComponents track by option.name"></select>
                 <input type="button" ng-click="removeEntry(entry.meat)" value="-"/>
                 <br>
-                <input type="number" ng-model="entry.weight.value">
+                <input id="weightTxtField" type="number" ng-model="entry.weight.value">
+                <label for="weightTxtField">{{entry.weight.unit}}</label>
             </th>
             <th>Total/Norm</th>
         </tr>
