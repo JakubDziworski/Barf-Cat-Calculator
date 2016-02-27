@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Tytuł</title>
+    <script src="jquery-2.2.1.js"></script>
+    <script src="angular.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-app="mainApp">
+<div ng-controller="rootController">
+    <input type="button" ng-click="addNewEntry()" value="+"/>
+    <table>
+        <tr>
+            <th>What?</th>
+            <th ng-repeat="entry in entries">
+                <select ng-model="entry.meat"
+                        ng-options="option.name for option in availableMeats track by option.name"/>
+                <input type="button" ng-click="removeEntry(entry.meat)" value="-"/>
+                <br>
+                <input type="number" ng-model="entry.weight.value">
+            </th>
+            <th>Total/Norm</th>
+        </tr>
+        <tr ng-repeat="substance in availableSubstances">
+            <td>
+                {{substance.name}}
+            </td>
+            <td ng-repeat="entry in entries">
+                {{entry.meat.substancesMap[substance.name]}}
+            </td>
+            <td>
+                {{sumForSubstance(substance)}} {{substance.properWeight.unit}} / {{substance.properWeight.value}}
+                {{substance.properWeight.unit}}
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
