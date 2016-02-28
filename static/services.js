@@ -15,14 +15,13 @@ mainApp.service('getDataService', function ($http, $q) {
 });
 
 mainApp.service('parseDataService', function () {
-
     this.getAvaialableComponents = function (data) {
-        return $.map(data["SubstancesForComponent"], function (meatSubstances, meatName) {
+        return $.map(data["SubstancesForComponent"], function (componentSubstances, componentName) {
             var substancesMap = {};
-            angular.forEach(meatSubstances, function (substanceWeight, substanceName) {
+            angular.forEach(componentSubstances, function (substanceWeight, substanceName) {
                 substancesMap[substanceName] = substanceWeight;
             });
-            return new Meat(meatName, substancesMap);
+            return new Component(componentName, substancesMap);
         });
     };
 
@@ -31,4 +30,11 @@ mainApp.service('parseDataService', function () {
             return new Substance(substanceName,new Weight(substanceValue["Norm"],substanceValue["Unit"]));
         });
     };
+});
+
+mainApp.service('calculatorService', function () {
+    this.substanceAmountForEntry = function(entry,substance) {
+        var component = entry.component;
+        return component.weight.unit.multiplier*component.weight.value*component.substancesMap[substance];
+    }
 });

@@ -6,20 +6,21 @@
     <script src="controllers.js"></script>
     <script src="services.js"></script>
     <script src="classes.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body ng-app="mainApp">
 <div ng-controller="rootController">
     <input type="button" ng-click="addNewEntry()" value="+"/>
     <table>
         <tr>
-            <th>What?</th>
+            <th>Substance</th>
             <th ng-repeat="entry in entries">
-                <select ng-model="entry.meat"
+                <select class="select" ng-model="entry.component"
                         ng-options="option.name for option in availableComponents track by option.name"></select>
-                <input type="button" ng-click="removeEntry(entry.meat)" value="-"/>
+                <input type="button" ng-click="removeEntry(entry.component)" value="-"/>
                 <br>
                 <input id="weightTxtField" type="number" ng-model="entry.weight.value">
-                <label for="weightTxtField">{{entry.weight.unit}}</label>
+                <label for="weightTxtField">{{entry.weight.unit.name}}</label>
             </th>
             <th>Total/Norm</th>
         </tr>
@@ -28,11 +29,14 @@
                 {{substance.name}}
             </td>
             <td ng-repeat="entry in entries">
-                {{entry.meat.substancesMap[substance.name]}}
+                {{substanceAmountForEntry(entry,substance) | number:2}}
             </td>
             <td>
-                {{sumForSubstance(substance)}} {{substance.properWeight.unit}} / {{substance.properWeight.value}}
-                {{substance.properWeight.unit}}
+                {{sumForSubstance(substance)}} / {{substance.norm.value}} / {{diff(substance)}}
+                <div ng-class="{'perfect' : diffStatus(substance) == 0,'tooBig' : diffStatus(substance) == 1,'tooSmall' : diffStatus(substance) == -1}">
+                    ({{diffForSubstance(substance)}}) / {{diffStatus(substance)}}
+                </div>
+                {{substance.norm.unit}}
             </td>
         </tr>
     </table>
