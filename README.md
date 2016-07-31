@@ -1,3 +1,3 @@
 # Barf-Cat-Calculator
 
-AngularJS app for calculating meat for cat.
+AngularJS app which calculates meat components ratio for cats.
